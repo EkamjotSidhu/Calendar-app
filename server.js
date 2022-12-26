@@ -24,13 +24,13 @@ app.get('/notes', (req, res) => {
 });
 
 app.get('/api/notes', (req, res) => {
-    res.sendFile(path.join(__dirname, './db/db.json'));
+    res.sendFile(path.join(__dirname, 'db/db.json'));
 
 });
 
 app.post('/api/notes', (req, res) => {
     var obj = { id: uuid.v4(), title: req.body.title, text: req.body.text }
-    var readData = (fs.readFileSync("./db/db.json", "utf-8"))
+    var readData = (fs.readFileSync("db/db.json", "utf-8"))
     readData = JSON.parse(readData)
     readData.push(obj)
     fs.writeFile("./db/db.json", JSON.stringify(readData), (err) => {
@@ -41,14 +41,14 @@ app.post('/api/notes', (req, res) => {
     })
 })
 app.delete('/api/notes/:id', (req, res) => {
-    var noteData = fs.readFileSync("./db/db.json", "utf-8")
+    var noteData = fs.readFileSync("db/db.json", "utf-8")
     noteData = JSON.parse(noteData)
     var id = req.params.id
     var newData = noteData.filter((ele) => {
         return (ele.id != id)
     })
 
-    fs.writeFileSync("./db/db.json", JSON.stringify(newData), (err) => {
+    fs.writeFileSync("db/db.json", JSON.stringify(newData), (err) => {
         if (err) {
             throw (err)
         };
